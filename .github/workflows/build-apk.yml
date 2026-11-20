@@ -1,0 +1,46 @@
+name: Build AnggarankuNF APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'android-webview/**'
+      - '.github/workflows/build-apk.yml'
+
+permissions:
+  contents: read
+
+env:
+  ANGGARANKU_WEB_URL: https://script.google.com/macros/s/AKfycbxlifsH6_xxfK1-V8CKZcJ7FyADlsypcq6ZYYphQgf8hgaw4Un1JGnrhQZCVyz-2WsMRA/exec
+
+jobs:
+  build-debug-apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android-webview
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Build debug APK
+        run: gradle :app:assembleDebug -PANGGARANKU_WEB_URL="$ANGGARANKU_WEB_URL" --no-daemon
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anggarankuNF-debug-apk
+          path: android-webview/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
