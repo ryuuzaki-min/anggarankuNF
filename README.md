@@ -6,6 +6,7 @@ AnggarankuNF adalah aplikasi web keuangan keluarga berbasis Google Apps Script (
 
 - `gas/` — backend GAS, UI `Index.html`, konfigurasi dan manifest.
 - `android-webview/` — wrapper Android native ringan yang membuka deployment GAS melalui WebView.
+- `audit/` — laporan audit statis update branding, UI, warning bar, dan wrapper APK.
 
 ## Menjalankan GAS
 
@@ -18,5 +19,7 @@ AnggarankuNF adalah aplikasi web keuangan keluarga berbasis Google Apps Script (
 ## Build APK
 
 Jalur yang dipilih untuk rilis awal adalah WebView karena mempertahankan satu codebase GAS/Sheets dan membutuhkan perubahan minimal. Android SDK/Gradle diperlukan untuk menghasilkan APK; lihat [`android-webview/README.md`](android-webview/README.md).
+
+Update visual terbaru memakai nama **Anggaranku 7.0**, logo keluarga yang sama pada sidebar/topbar dan ikon APK, transisi antar-modul, serta suppression warning bar host Apps Script pada source GAS dan runtime WebView. Laporan audit tersedia di [`audit/AUDIT_REPORT.md`](audit/AUDIT_REPORT.md).
 
 > Jangan commit token, PIN, kredensial Google, atau URL deployment privat ke repository publik. `spreadsheetId` di source hanya merupakan identifier; akses data tetap dikendalikan oleh Apps Script dan Google Sheets.

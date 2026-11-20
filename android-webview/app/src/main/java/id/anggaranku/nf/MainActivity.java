@@ -39,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                view.evaluateJavascript("(function(){var s=document.createElement('style');s.textContent='#warning-bar-table,#warning-bar,.warning-bar{display:none!important;height:0!important;visibility:hidden!important}body{padding-top:0!important}';document.head.appendChild(s);['#warning-bar-table','#warning-bar'].forEach(function(q){var n=document.querySelector(q);if(n)n.remove()});})();", null);
+            }
+
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return false;
             }

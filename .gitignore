@@ -8,6 +8,8 @@
 android-webview/**/build/
 android-webview/local.properties
 android-webview/.cxx/
+artifacts/
+*.apk
 
 # Local deployment overrides
 .env

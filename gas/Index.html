@@ -659,6 +659,26 @@
     .dashboard-quick-card small { color: var(--muted); font-size: .66rem; line-height: 1.25; }
     @media (max-width: 1050px) { .dashboard-quick-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     @media (max-width: 600px) { .dashboard-quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    /* Anggaranku 7.0 app chrome: keep the branded app surface clean inside WebView. */
+    #warning-bar-table, #warning-bar, .warning-bar { display: none !important; height: 0 !important; min-height: 0 !important; visibility: hidden !important; }
+    body { padding-top: 0 !important; }
+    .topbar-title { display: flex; align-items: center; gap: 12px; }
+    .topbar-logo { width: 34px; height: 34px; flex: 0 0 34px; border-radius: 11px; object-fit: cover; box-shadow: 0 5px 14px rgba(6,16,69,.18); }
+    .topbar-title-copy { min-width: 0; }
+    .topbar-title h2 { letter-spacing: -.035em; }
+    #content { opacity: 1; transform: translateY(0); }
+    #content.view-enter { animation: content-enter .28s cubic-bezier(.2,.75,.25,1) both; }
+    .nav-button { transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease; }
+    .nav-button:hover { transform: translateX(3px); }
+    .nav-button.active { box-shadow: 0 8px 18px rgba(4,199,106,.17); }
+    .panel, .metric-card, .table-panel, .trend-card, .module-recap { animation: surface-enter .34s cubic-bezier(.2,.75,.25,1) both; }
+    .login-screen, .app-shell { animation: app-fade-in .35s ease both; }
+    @keyframes content-enter { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes surface-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes app-fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { #content.view-enter, .panel, .metric-card, .table-panel, .trend-card, .module-recap, .login-screen, .app-shell { animation: none !important; } }
+
   </style>
 </head>
 <body>
@@ -709,9 +729,9 @@
     <section class="main-area">
       <header class="topbar">
         <div class="topbar-title">
-          <button id="menuToggle" class="menu-toggle" type="button">☰</button>
-          <h2 id="topbarTitle">Dashboard</h2>
-          <p id="topbarSubtitle">Ringkasan posisi keuangan keluarga</p>
+          <button id="menuToggle" class="menu-toggle" type="button" aria-label="Buka menu">☰</button>
+          <img class="topbar-logo" src="data:image/png;base64,<?!= logoBase64 ?>" alt="Logo Anggaranku 7.0">
+          <div class="topbar-title-copy"><h2 id="topbarTitle">Dashboard</h2><p id="topbarSubtitle">Ringkasan posisi keuangan keluarga</p></div>
         </div>
         <div class="topbar-actions">
           <div id="userPill" class="user-pill"><span id="userAvatar" class="user-avatar">U</span><span id="userName">User</span></div>
@@ -822,7 +842,13 @@
     const $ = (selector) => document.querySelector(selector);
     const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 
+    function removeAppsScriptHostChrome() {
+      ['#warning-bar-table', '#warning-bar'].forEach((selector) => { const node = document.querySelector(selector); if (node) node.remove(); });
+    }
     document.addEventListener('DOMContentLoaded', () => {
+      removeAppsScriptHostChrome();
+      const hostChromeObserver = new MutationObserver(removeAppsScriptHostChrome);
+      hostChromeObserver.observe(document.body, { childList: true, subtree: true });
       $('#currentYear').textContent = String(new Date().getFullYear());
       $('#loginForm').addEventListener('submit', handleLogin);
       $('#logoutButton').addEventListener('click', handleLogout);
@@ -975,6 +1001,8 @@
 
     function selectModule(moduleKey) {
       state.currentModule = moduleKey;
+      const content = $('#content');
+      if (content) { content.classList.remove('view-enter'); void content.offsetWidth; content.classList.add('view-enter'); setTimeout(() => content.classList.remove('view-enter'), 360); }
       $$('.nav-button').forEach((button) => button.classList.toggle('active', button.dataset.module === moduleKey));
       $('#sidebar').classList.remove('open');
       const info = moduleKey === 'dashboard' ? ['Dashboard', 'Ringkasan posisi keuangan keluarga'] : (MODULES[moduleKey] || ['Modul', '']);
