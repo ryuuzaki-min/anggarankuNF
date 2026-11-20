@@ -24,7 +24,7 @@ Static audit of GAS source, UI branding, Android WebView wrapper, warning-bar su
 ## Build status
 
 - Local sandbox does not contain Android SDK/Gradle/JDK compiler tooling.
-- The hosted GitHub Actions build is the authoritative APK build check and must be rerun after this update.
+- Hosted GitHub Actions build passed for commit `817549ae2d55bbf75b940e93efda5d2e316a624f` in run [44672658496](https://github.com/ryuuzaki-min/anggarankuNF/actions/runs/44672658496).
 - The APK loads the configured GAS deployment and applies a runtime CSS/JS suppression for the host warning bar.
 
 ## Known deployment requirement

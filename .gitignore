@@ -9,6 +9,7 @@ android-webview/**/build/
 android-webview/local.properties
 android-webview/.cxx/
 artifacts/
+build-artifact/
 *.apk
 
 # Local deployment overrides
