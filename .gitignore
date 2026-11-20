@@ -1,0 +1,15 @@
+# Local/runtime
+.DS_Store
+.idea/
+*.iml
+.gradle/
+
+# Android build
+android-webview/**/build/
+android-webview/local.properties
+android-webview/.cxx/
+
+# Local deployment overrides
+.env
+.env.*
+!env.example

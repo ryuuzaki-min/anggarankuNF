@@ -1,0 +1,2 @@
+# Copy to gradle.properties for local builds; do not commit secrets.
+ANGGARANKU_WEB_URL=https://script.google.com/macros/s/AKfycbxlifsH6_xxfK1-V8CKZcJ7FyADlsypcq6ZYYphQgf8hgaw4Un1JGnrhQZCVyz-2WsMRA/exec

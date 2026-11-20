@@ -1,0 +1,37 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'id.anggaranku.nf'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'id.anggaranku.nf'
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName '1.0.0'
+        buildConfigField 'String', 'ANGGARANKU_WEB_URL', '"' + (project.findProperty('ANGGARANKU_WEB_URL') ?: 'https://script.google.com/macros/s/AKfycbxlifsH6_xxfK1-V8CKZcJ7FyADlsypcq6ZYYphQgf8hgaw4Un1JGnrhQZCVyz-2WsMRA/exec') + '"'
+    }
+
+    buildFeatures { buildConfig true }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.activity:activity:1.10.1'
+    implementation 'androidx.webkit:webkit:1.13.0'
+}
